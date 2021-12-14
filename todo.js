@@ -6,6 +6,8 @@ const gPop = document.querySelector('.popup-wrapper');
 const btn = document.querySelector('.btn');
 const search = document.querySelector('.search input');
 gPop.style.display = "none";
+const input = document.getElementsByTagName('input');
+//console.log(input.item(1))
 
 
 /***************reusable function********************/
@@ -56,8 +58,8 @@ function create(){
 const generateTemp = todo =>{
    const html = `
    <li class="list-group-item d-flex justify-content-between align-items-center">
-             <span>${todo}</span>
-             <i class="fas fa-trash delete"></i>
+            <span>${todo}</span>
+            <i class="fas fa-trash delete"></i>
             </li>
    `;  
    list.innerHTML += html;
@@ -77,7 +79,7 @@ function onetime(node, type, callback) {
 
 onetime(gPop,'click',handler);
 
-    function handler(e){
+   function handler(e){
          
       if(e.target.id='closing'){
    
@@ -93,9 +95,23 @@ onetime(gPop,'click',handler);
 /************* Adding TO DO**************/
 
 //Eventlistner Add TODOS
+
 btn.addEventListener('click',e =>{
- 
-  
+   let elem = document.createElement('li');
+   elem.className = "list-group-item d-flex justify-content-between align-items-center";
+
+   let span = document.createElement('span');
+   span.innerHTML = input.item(1).value;
+   input.item(1).value = ""
+
+   const i = document.createElement('i');
+   i.className ="fas fa-trash delete";
+
+   list.appendChild(elem);
+   elem.appendChild(span)
+   elem.appendChild(i);
+   e.preventDefault();
+
 });
 
 /************* Fin Adding TO DO**************/
@@ -103,9 +119,14 @@ btn.addEventListener('click',e =>{
 
 
 /*************Deleting  TO DO**************/
-list.addEventListener('click',e =>{
 
+list.addEventListener('click', e => {
+   if (e.target.classList.contains("delete")) {
+      e.target.parentNode.remove();
+   }
 });
+
+
 
 /************* Fin Deleting  TO DO**************/
 
@@ -119,18 +140,32 @@ list.addEventListener('click',e =>{
 
 // have keyup event 
 
+const retrieve = (term) => {
+   
+   term = term.toLowerCase(); // Met la recherche en minuscule pour la rendre insensible à la casse
+   const todo = document.querySelectorAll("li"); // Récupére tous les éléments de la liste <li>
+
+   // Boucle pour parcourir les éléments de la liste
+   for (var i = 0; i < todo.length; i++) {
+
+      // Récupère le texte du <li> et le met en minuscule
+      var text = todo[i].innerText.toLowerCase();
+      
+      // Vérifie que l'élément de la liste contient le terme recherché
+      // Ajoute ou supprime la classe "filtre" pour le cacher ou montrer
+      if (!text.includes(term)) {
+         todo[i].classList.add("filtre");
+      }
+      else {
+         todo[i].classList.remove("filtre");
+      }
+   }
+};
 
 
-const retrieve = (term) =>{
-
-   //function pour faire un filtre i
-};  
-
-
-//evenement de recherche des mots clés 
-search.addEventListener('keyup', () =>{
-  
-
+//evenement de recherche des mots clés
+search.addEventListener('keyup', () => {
+   retrieve( document.querySelector("form.search input").value );
 })
 
 /*************************************Fin SEARCH ITEM********************************************/
