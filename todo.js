@@ -6,8 +6,7 @@ const gPop = document.querySelector('.popup-wrapper');
 const btn = document.querySelector('.btn');
 const search = document.querySelector('.search input');
 gPop.style.display = "none";
-const input = document.getElementsByTagName('input');
-//console.log(input.item(1))
+
 
 
 /***************reusable function********************/
@@ -24,7 +23,7 @@ setTimeout("start("+duree+" -1)", 1000);
 }
 else
 {
-   alert("enter a valid to do");
+   alert("Entrez une donnée valide");
 o.innerHTML ="Au revoir";
 gPop.style.display="none";
 popup.style.visibility ="hidden";
@@ -97,21 +96,25 @@ onetime(gPop,'click',handler);
 //Eventlistner Add TODOS
 
 btn.addEventListener('click',e =>{
-   let elem = document.createElement('li');
-   elem.className = "list-group-item d-flex justify-content-between align-items-center";
-
-   let span = document.createElement('span');
-   span.innerHTML = input.item(1).value;
-   input.item(1).value = ""
-
-   const i = document.createElement('i');
-   i.className ="fas fa-trash delete";
-
-   list.appendChild(elem);
-   elem.appendChild(span)
-   elem.appendChild(i);
-   e.preventDefault();
-
+   if(addForm[0].value == ""){
+      start()
+   }else{
+      let elem = document.createElement('li');
+      elem.className = "list-group-item d-flex justify-content-between align-items-center";
+   
+      let span = document.createElement('span');
+      span.innerHTML = addForm[0].value;
+      addForm[0].value = ""
+   
+      const i = document.createElement('i');
+      i.className ="fas fa-trash delete";
+   
+      list.appendChild(elem);
+      elem.appendChild(span)
+      elem.appendChild(i);
+      e.preventDefault();
+   }
+ /* Je n'avais pas vu la fonction generateTemp x) pardon */
 });
 
 /************* Fin Adding TO DO**************/
